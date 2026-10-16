@@ -1,14 +1,12 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { getGuests } from "./api";
+import { useEffect, useState } from "react";
+import { getGuests } from "./api.js";
 export default function GuestList() {
-  const [guests, setGuest] = useState([]);
+  const [guests, setGuests] = useState();
 
   async function syncGuests() {
     const data = await getGuests();
-    setGuest(data);
+    setGuests(data);
   }
-  // useEffect(()=>{},[]);
 
   useEffect(() => {
     syncGuests();
@@ -16,22 +14,26 @@ export default function GuestList() {
 
   return (
     <article>
-      <h1>Guest List</h1>
+      <h1></h1>
       <ul>
         <li>
           <span>Name</span>
           <span>Email</span>
           <span>Phone</span>
         </li>
-        {guests.map((guest) => (
-          <li key={guest.id}>
-            <span>{guest.name}</span>
-            <span>{guest.email}</span>
-            <span>{guest.phone}</span>
-          </li>
-        ))}
-        <p>Please select a guest to see more details</p>
+        {guests ? (
+          guests.map((guest) => (
+            <li key={guest.id}>
+              <span>{guest.name}</span>
+              <span>{guest.email}</span>
+              <span>{guest.phone}</span>
+            </li>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
       </ul>
+      <p>Please select a guest to see more datails</p>
     </article>
   );
 }
