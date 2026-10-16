@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getGuests } from "./api.js";
-export default function GuestList() {
+
+export default function GuestList({ setSelectedGuestId }) {
   const [guests, setGuests] = useState();
 
   async function syncGuests() {
@@ -23,8 +24,9 @@ export default function GuestList() {
         </li>
         {guests ? (
           guests.map((guest) => (
-            <li key={guest.id}>
+            <li key={guest.id} onClick={() => setSelectedGuestId(guest.id)}>
               <span>{guest.name}</span>
+
               <span>{guest.email}</span>
               <span>{guest.phone}</span>
             </li>
